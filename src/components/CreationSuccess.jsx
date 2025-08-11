@@ -1,9 +1,28 @@
 import React from 'react';
 import { IoCloseOutline } from "react-icons/io5";
 import { GoCheck } from "react-icons/go";
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function CreationSuccess(){
+    const location = useLocation();
+    const navigate = useNavigate();
+    const [itemId, setItemId] = useState(null);
+
+    useEffect(() => {
+        if (location.state?.id) {
+        setItemId(location.state.id);
+        } else {
+        navigate("/");
+        }
+    }, [location, navigate]);
+
+    const handleEdit = () => {
+        if (itemId) {
+            navigate(`/user/${itemId}/edit`);
+        }
+    };
     return(
         <>
         <main>
@@ -17,7 +36,7 @@ export default function CreationSuccess(){
                     </div>
                 </div>
                 <div className='flex flex-col gap-[15px] w-full items-center mb-[30px]'>
-                    <Link  className='rounded-md text-center capitalize border border-[#aa0094] w-2/3 md:w-1/3 p-[3px] text-[#fff]'>edit</Link>
+                    <button onClick={handleEdit} className='rounded-md text-center capitalize border border-[#aa0094] w-2/3 md:w-1/3 p-[3px] text-[#fff]'>edit</button>
                     <Link to={"/"} className='rounded-md text-center capitalize w-2/3 md:w-1/3 p-[3px] text-[#fff] bg-[#aa0094]'>close</Link>
                 </div>
             </section>

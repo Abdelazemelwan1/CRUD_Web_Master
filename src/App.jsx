@@ -4,10 +4,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import CreationSuccess from "./components/CreationSuccess";
 import AddItemModal from './pages/AddItem';
 import UpdateItem from './pages/UpdateItem';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
 
-  return (
+  return (<>
       <Router>
           <Routes>
             <Route path="/" element={<Dashboard />} />
@@ -16,7 +17,8 @@ function App() {
             <Route path="/user/:id/edit" element={<UpdateItem />} />
           </Routes>
       </Router>
-    // </>
+      <Toaster position="top-center" reverseOrder={false} />
+    </>
   )
 }
 
