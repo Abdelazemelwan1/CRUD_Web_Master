@@ -6,6 +6,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 // import { createUserWithEmailAndPassword } from 'firebase/auth';
 import {db} from "../firebase/firebase";
 import {collection , addDoc} from "firebase/firestore"
+import toast from "react-hot-toast";
 
 export default function AddItemModal() {
   const navigate = useNavigate()
@@ -35,12 +36,19 @@ export default function AddItemModal() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        const isEmptyField = Object.values(formData).some(value => value.trim() === "");
+        if (isEmptyField) {
+          toast.error("All fields are required",{
+            icon: "⚠️"
+          });
+          return;
+        }
         console.log(formData);
         try{
           // const response =  await createUserWithEmailAndPassword(auth, formData.Email ,formData.password , formData.Request , formData.Area , formData.Date , formData.NeedDate , formData.price , formData.totalprice , formData.materials);
           const response =  await addDoc(collection(db, "users") , formData);
           console.log("data" , response);
-          navigate("/creation-success")
+          navigate("/creation-success", { state: { id: response.id } })
         }catch(error){
           console.log(error.massage);
         }

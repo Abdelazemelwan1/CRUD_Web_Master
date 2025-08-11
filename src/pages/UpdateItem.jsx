@@ -6,6 +6,7 @@ import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 // import { createUserWithEmailAndPassword } from 'firebase/auth';
 import {db} from "../firebase/firebase";
 import {collection , addDoc, getDocs, getDoc, doc, updateDoc} from "firebase/firestore"
+import toast from "react-hot-toast";
 
 export default function UpdateItem() {
   const {id} = useParams()
@@ -55,12 +56,20 @@ export default function UpdateItem() {
 
      const handleSubmit = async (e) => {
         e.preventDefault()
+        const isEmptyField = Object.values(formData).some(value => value.trim() === "");
+        if (isEmptyField) {
+          toast.error("All fields are required",{
+            icon: "⚠️"
+          });
+          return;
+        }
         console.log(formData);
         try{
           // const response =  await createUserWithEmailAndPassword(auth, formData.Email ,formData.password , formData.Request , formData.Area , formData.Date , formData.NeedDate , formData.price , formData.totalprice , formData.materials);
           const response =  await updateDoc(doc(db, "users" , id) , formData);
           console.log("data" , response);
-          navigate("/creation-success")
+          toast.success("Edited successfully!");
+          navigate("/")
         }catch(error){
           console.log(error.massage);
         }
@@ -82,7 +91,7 @@ export default function UpdateItem() {
             <Link to={"/"} className="w-full text-center px-6 py-2 text-white bg-transparent border rounded-md border-fuchsia-600">
               Cancel
             </Link>
-            <Link onClick={handleSubmit} to={"/creation-success"} className= "text-center w-full px-6 py-2 text-white rounded-md bg-fuchsia-700">
+            <Link onClick={handleSubmit} className= "text-center w-full px-6 py-2 text-white rounded-md bg-fuchsia-700">
               Update
             </Link>
           </div>
