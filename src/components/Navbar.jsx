@@ -22,10 +22,16 @@ import SearchIcon from "@mui/icons-material/Search";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useNavigate } from 'react-router-dom'; 
 
 const CustomHeader =({ onSearch, onPageChange })=>{
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+   const navigate = useNavigate(); // <-- ✅ hook
+    const handleAddItemClick = () => {
+      navigate('/add'); // <-- ✅ go to /add
+    };
 
   return (
     <Box>
@@ -132,7 +138,7 @@ const CustomHeader =({ onSearch, onPageChange })=>{
           <IconButton sx={{ color: "white", "&:hover": { backgroundColor: "#1f2a8a" } }} 
            onClick={() => onPageChange(prev => Math.max(1, prev - 1))}
           >
-            <ArrowBackIosIcon fontSize="small" sx={{}} onClick={() => onPageChange(prev => prev - 1)} />
+            <ArrowBackIosIcon fontSize="small" />
           </IconButton>
           <Typography>Page 1 of 5</Typography>
           <IconButton sx={{ color: "white", "&:hover": { backgroundColor: "#1f2a8a" } }}
@@ -151,6 +157,7 @@ const CustomHeader =({ onSearch, onPageChange })=>{
           bottom: 24,
           right: 24,
           backgroundColor: "#e6007e",
+          
           color: "white",
           zIndex: 1300,
           boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
@@ -159,7 +166,7 @@ const CustomHeader =({ onSearch, onPageChange })=>{
           },
         }}
       >
-        <AddIcon fontSize="large" />
+        <AddIcon fontSize="large"  onClick={handleAddItemClick}/>
       </IconButton>
     </Box>
   );

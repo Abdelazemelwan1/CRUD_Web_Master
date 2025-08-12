@@ -7,14 +7,17 @@ import { db} from "../firebase/firebase";
 import { useState } from 'react';
 import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
 import { useEffect } from 'react';
+import CustomHeader from '../components/Navbar';
 
 
 function Dashboard() {
+    const [searchText, setSearchText] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [users, setUsers] = useState([]);
     const navigate = useNavigate(); // <-- ✅ hook
-    const handleAddItemClick = () => {
-      navigate('/add'); // <-- ✅ go to /add
-    };
-    const [users, setUsers] = useState([])
+  
+   
+    
 
     const fetchUsers = async () =>{
       const res = await getDocs(collection(db, "users"));
@@ -42,6 +45,28 @@ function Dashboard() {
     }
   
 }
+
+const rows = users?.length ?  users.map((user) => (
+  { 
+    id: user.id , 
+    requestNo : user.Request ,
+    area: user.Area ,
+    date: user.Date,
+    needDate: user.NeedDate,
+    price: `${user.price || 0} $` ,
+    totalprice:  `${user.totalprice || 0} $` ,
+    materialsproducts: user.materials
+  }
+)) : [];
+  const filteredRows = rows.filter((row) => {
+    const searchLower = searchText.toLowerCase();
+    return (
+      row.area.toLowerCase().includes(searchLower) ||
+      row.requestNo.toLowerCase().includes(searchLower) ||
+      row.date.toLowerCase().includes(searchLower) ||
+      row.price.toString() .toLowerCase().includes(searchLower)
+    );
+  });
 
   const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -100,24 +125,18 @@ function Dashboard() {
 
 ];
 
-const rows = users?.length ?  users.map((user) => (
-  { 
-    id: user.id, 
-    requestNo : user.Request,
-    area: user.Area ,
-    date: user.Date,
-    needDate: user.NeedDate,
-    price: `${user.price} $` ,
-    totalprice:  `${user.totalprice} $` ,
-    materialsproducts: user.materials
-  }
-)) : [];
+
 const paginationModel = { page: 0, pageSize: 7 };
 
 
   return (
+    <>
+     <CustomHeader        
+      onSearch={setSearchText}
+      onPageChange={setCurrentPage}
+    />
     <div className="p-20 min-h-screen">
-      <div className="flex justify-between items-center mb-4">
+      {/* <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-semibold text-white">Requests</h2>
         <button
           onClick={handleAddItemClick} // <-- ✅ attach handler
@@ -126,16 +145,18 @@ const paginationModel = { page: 0, pageSize: 7 };
           <span className="text-xl font-bold">+</span>
           Add Item
         </button>
-      </div>
+      </div> */}
 
-      <Paper className='m-auto mt-11' sx={{ height: 'calc(100vh - 200px)',
+      <Paper className='m-auto mt-4' sx={{ height: 'calc(100vh - 200px)',
             width: '100%',
             overflow: 'hidden', }}>
         <DataGrid
-          rows={rows}
+          rows={filteredRows}
           columns={columns}
           initialState={{ pagination: { paginationModel } }}
           pageSizeOptions={[5, 10]}
+          searchText={searchText}
+          currentPage={currentPage}
           checkboxSelection
           sx={{
           border: 0,
@@ -150,6 +171,7 @@ const paginationModel = { page: 0, pageSize: 7 };
         />
       </Paper>
     </div>
+    </>
   )
 }
 

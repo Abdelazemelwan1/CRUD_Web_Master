@@ -5,7 +5,7 @@ import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 // import {auth} from "../firebase/firebase";
 // import { createUserWithEmailAndPassword } from 'firebase/auth';
 import {db} from "../firebase/firebase";
-import {collection , addDoc, getDocs, getDoc, doc, updateDoc} from "firebase/firestore"
+import { getDoc, doc, updateDoc} from "firebase/firestore"
 import toast from "react-hot-toast";
 
 export default function UpdateItem() {

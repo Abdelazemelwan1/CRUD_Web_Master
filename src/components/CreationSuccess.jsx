@@ -1,15 +1,6 @@
 import React from 'react';
 import { IoCloseOutline } from "react-icons/io5";
 import { GoCheck } from "react-icons/go";
-<<<<<<< HEAD
-
-export default function CreationSuccess(){
-    return(
-        <>
-        <main>
-            <section className="bg-[#0c1445] p-3 w-full md:w-[85%] h-screen md:h-[80%] absolute top-1/2 left-1/2 -translate-1/2 flex flex-col justify-between items-center">
-                <div className='self-end border rounded-full border-[#fff] w-fit text-[20px]'><IoCloseOutline className='text-[#fff]' /></div>
-=======
 import { Link } from 'react-router-dom';
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -37,7 +28,6 @@ export default function CreationSuccess(){
         <main>
             <section className="bg-[#0c1445] p-3 w-[85%] md:w-[70%] h-[85%] md:h-[80%] absolute top-1/2 left-1/2 -translate-1/2 flex flex-col justify-between items-center">
                 <Link to={"/"} className='self-end border rounded-full border-[#fff] w-fit text-[25px]'><IoCloseOutline className='text-[#fff]' /></Link>
->>>>>>> 4e71b00df60196b4a4de3a06ca0afda5d90b6f13
                 <div className='flex gap-[20px] md:gap-[40px] items-center' >
                     <div className=' border-3 rounded-full border-[#349367] p-[2px]' ><GoCheck className='text-[#349367] text-[50px] md:text-[70px]'/></div>
                     <div className='text-[#f7f8ff]'>
@@ -46,13 +36,8 @@ export default function CreationSuccess(){
                     </div>
                 </div>
                 <div className='flex flex-col gap-[15px] w-full items-center mb-[30px]'>
-<<<<<<< HEAD
-                    <button className='capitalize border border-[#aa0094] w-2/3 md:w-1/3 p-[3px] text-[#fff]'>edit</button>
-                    <button className='capitalize w-2/3 md:w-1/3 p-[3px] text-[#fff] bg-[#aa0094]'>close</button>
-=======
                     <button onClick={handleEdit} className='rounded-md text-center capitalize border border-[#aa0094] w-2/3 md:w-1/3 p-[3px] text-[#fff]'>edit</button>
                     <Link to={"/"} className='rounded-md text-center capitalize w-2/3 md:w-1/3 p-[3px] text-[#fff] bg-[#aa0094]'>close</Link>
->>>>>>> 4e71b00df60196b4a4de3a06ca0afda5d90b6f13
                 </div>
             </section>
         </main>
