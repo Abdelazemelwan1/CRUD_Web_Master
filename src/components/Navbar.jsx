@@ -24,7 +24,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useNavigate } from 'react-router-dom'; 
 
-const CustomHeader =({ onSearch, onPageChange })=>{
+const CustomHeader =({ onSearch, onPageChange , currentPage, totalPages })=>{
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -33,10 +33,25 @@ const CustomHeader =({ onSearch, onPageChange })=>{
       navigate('/add'); // <-- ✅ go to /add
     };
 
+        // دالة للذهاب للصفحة السابقة
+    const handlePrevPage = () => {
+        if (currentPage > 1) {
+            onPageChange(currentPage - 1);
+        }
+    };
+
+    // دالة للذهاب للصفحة التالية
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            onPageChange(currentPage + 1);
+        }
+    };
+
+
   return (
     <Box>
       {/* Top Blue App Bar */}
-      <AppBar position="static" sx={{ backgroundColor: "#1f2a8a", px: 2 }}>
+      <AppBar  sx={{ backgroundColor: "#1f2a8a", px: 2, position:"fixed" }}>
         <Toolbar
           sx={{
             justifyContent: "space-between",
@@ -86,6 +101,11 @@ const CustomHeader =({ onSearch, onPageChange })=>{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          position: "fixed",
+          top: isMobile ? "56px" : "64px",
+          left: 0,
+          right: 0,
+          zIndex: 1200,
           px: 3,
           py: 1,
           flexWrap: "wrap",
@@ -135,16 +155,19 @@ const CustomHeader =({ onSearch, onPageChange })=>{
 
         {/* Right - Pagination */}
         <Box display="flex" alignItems="center" gap={2} color="white">
-          <IconButton sx={{ color: "white", "&:hover": { backgroundColor: "#1f2a8a" } }} 
-           onClick={() => onPageChange(prev => Math.max(1, prev - 1))}
+          <IconButton sx={{ color: "white", "&:hover": { backgroundColor: "#1f2a8a" } ,  opacity: currentPage === 1 ? 0.5 : 1  }} 
+          
+           onClick={handlePrevPage}
+           disabled={currentPage === 1}
           >
-            <ArrowBackIosIcon fontSize="small" />
+            <ArrowBackIosIcon fontSize="small"    />
           </IconButton>
-          <Typography>Page 1 of 5</Typography>
-          <IconButton sx={{ color: "white", "&:hover": { backgroundColor: "#1f2a8a" } }}
-           onClick={() => onPageChange(prev => prev + 1)}
+          <Typography>   Page {currentPage} of {totalPages}</Typography>
+          <IconButton sx={{ color: "white", "&:hover": { backgroundColor: "#1f2a8a" } ,opacity: currentPage === totalPages ? 0.5 : 1}}
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
           >
-            <ArrowForwardIosIcon fontSize="small" onClick={() => onPageChange(prev => prev + 1)} />
+            <ArrowForwardIosIcon fontSize="small"  />
           </IconButton>
         </Box>
       </Box>
@@ -154,16 +177,17 @@ const CustomHeader =({ onSearch, onPageChange })=>{
         size="large"
         sx={{
           position: "fixed",
-          bottom: 24,
-          right: 24,
+          top: 140,
+          right: 12,
           backgroundColor: "#e6007e",
-          
+         
           color: "white",
           zIndex: 1300,
           boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
           "&:hover": {
             backgroundColor: "#c3006b",
           },
+
         }}
       >
         <AddIcon fontSize="large"  onClick={handleAddItemClick}/>

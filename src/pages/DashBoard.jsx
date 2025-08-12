@@ -14,6 +14,7 @@ function Dashboard() {
     const [searchText, setSearchText] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [users, setUsers] = useState([]);
+    const [pageSize, setPageSize] = useState(5);
     const navigate = useNavigate(); // <-- ✅ hook
   
    
@@ -125,15 +126,24 @@ const rows = users?.length ?  users.map((user) => (
 
 ];
 
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
 
-const paginationModel = { page: 0, pageSize: 7 };
+  const paginationModel = { 
+        page: currentPage - 1, 
+        pageSize: pageSize 
+    };
+  const totalPages = Math.ceil(filteredRows.length / pageSize);
 
 
   return (
     <>
      <CustomHeader        
       onSearch={setSearchText}
-      onPageChange={setCurrentPage}
+      onPageChange={handlePageChange}
+        currentPage={currentPage}
+        totalPages={totalPages}
     />
     <div className="p-20 min-h-screen">
       {/* <div className="flex justify-between items-center mb-4">
@@ -147,16 +157,22 @@ const paginationModel = { page: 0, pageSize: 7 };
         </button>
       </div> */}
 
-      <Paper className='m-auto mt-4' sx={{ height: 'calc(100vh - 200px)',
+      <Paper className='m-auto mt-25' sx={{ height: 'calc(100vh - 200px)',
             width: '100%',
             overflow: 'hidden', }}>
         <DataGrid
           rows={filteredRows}
           columns={columns}
           initialState={{ pagination: { paginationModel } }}
-          pageSizeOptions={[5, 10]}
+          // pageSizeOptions={[5, 10]}
           searchText={searchText}
           currentPage={currentPage}
+           paginationModel={paginationModel}
+          onPaginationModelChange={(model) => {
+              setCurrentPage(model.page + 1); // ✅ تحويل من zero-based إلى one-based
+              setPageSize(model.pageSize);
+          }}
+          // pageSizeOptions={[5, 10, 20]}
           checkboxSelection
           sx={{
           border: 0,
