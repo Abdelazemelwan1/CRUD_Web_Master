@@ -12,16 +12,28 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+<<<<<<< HEAD
+=======
+    "@heroicons/react": "^2.2.0",
+>>>>>>> 4e71b00df60196b4a4de3a06ca0afda5d90b6f13
     "@mui/icons-material": "^7.3.0",
     "@mui/material": "^7.3.0",
     "@mui/x-data-grid": "^8.9.2",
     "@tailwindcss/postcss": "^4.1.11",
     "@tailwindcss/vite": "^4.1.11",
+<<<<<<< HEAD
+=======
+    "firebase": "^12.0.0",
+>>>>>>> 4e71b00df60196b4a4de3a06ca0afda5d90b6f13
     "flowbite": "^3.1.2",
     "flowbite-react": "^0.12.6",
     "postcss": "^8.5.6",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+<<<<<<< HEAD
+=======
+    "react-hot-toast": "^2.5.2",
+>>>>>>> 4e71b00df60196b4a4de3a06ca0afda5d90b6f13
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.7.1",
     "tailwindcss": "^4.1.11"
