@@ -22,9 +22,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
-const CustomHeader =({ onSearch, onPageChange , currentPage, totalPages })=>{
+const CustomHeader =({ onSearch, onPageChange , currentPage, totalPages, handleLogout, user })=>{
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -76,7 +76,8 @@ const CustomHeader =({ onSearch, onPageChange , currentPage, totalPages })=>{
 
           {/* Right - User Info and Icons */}
           <Box display="flex" alignItems="center" gap={2}>
-            <Typography sx={{ fontWeight: 500 }}>David Gomez</Typography>
+            <Typography sx={{ fontWeight: 500 }}>{user?.email}</Typography>
+            <Typography sx={{ fontWeight: 500 }} className="text-red-500 cursor-pointer" onClick={handleLogout}>logout</Typography>
             <IconButton sx={{ color: "white", "&:hover": { backgroundColor: "#3340b1" } }}>
               <Badge badgeContent={2} color="error">
                 <NotificationsNoneIcon />
