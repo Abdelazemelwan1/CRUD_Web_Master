@@ -4,10 +4,11 @@ import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import 'flowbite';
 import { db} from "../firebase/firebase";
-import { useState } from 'react';
 import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
-import { useEffect } from 'react';
 import CustomHeader from '../components/Navbar';
+import { useEffect, useState } from 'react';
+import { auth } from '../firebase/firebase';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 
 
 function Dashboard() {
@@ -15,10 +16,25 @@ function Dashboard() {
     const [currentPage, setCurrentPage] = useState(1);
     const [users, setUsers] = useState([]);
     const [pageSize, setPageSize] = useState(5);
-    const navigate = useNavigate(); // <-- ✅ hook
+    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
   
-   
     
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (!currentUser) {
+        navigate('/login');
+      } else {
+        setUser(currentUser);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+   const handleLogout = async () => {
+    await signOut(auth);
+    navigate('/login');
+  };
 
     const fetchUsers = async () =>{
       const res = await getDocs(collection(db, "users"));
@@ -62,10 +78,10 @@ const rows = users?.length ?  users.map((user) => (
   const filteredRows = rows.filter((row) => {
     const searchLower = searchText.toLowerCase();
     return (
-      row.area.toLowerCase().includes(searchLower) ||
-      row.requestNo.toLowerCase().includes(searchLower) ||
-      row.date.toLowerCase().includes(searchLower) ||
-      row.price.toString() .toLowerCase().includes(searchLower)
+      row.area?.toLowerCase().includes(searchLower) ||
+      row.requestNo?.toLowerCase().includes(searchLower) ||
+      row.date?.toLowerCase().includes(searchLower) ||
+      row.price?.toString() .toLowerCase().includes(searchLower)
     );
   });
 
@@ -144,6 +160,8 @@ const rows = users?.length ?  users.map((user) => (
       onPageChange={handlePageChange}
         currentPage={currentPage}
         totalPages={totalPages}
+        handleLogout={handleLogout}
+        user={user}
     />
     <div className="p-20 min-h-screen">
       {/* <div className="flex justify-between items-center mb-4">
@@ -156,7 +174,6 @@ const rows = users?.length ?  users.map((user) => (
           Add Item
         </button>
       </div> */}
-
       <Paper className='m-auto mt-25' sx={{ height: 'calc(100vh - 200px)',
             width: '100%',
             overflow: 'hidden', }}>
