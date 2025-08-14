@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FiX, FiCalendar } from "react-icons/fi";
 import React from 'react';
 import { Link, Navigate, useNavigate } from "react-router-dom";
@@ -9,6 +9,9 @@ import {collection , addDoc} from "firebase/firestore"
 import toast from "react-hot-toast";
 
 export default function AddItemModal() {
+  // let {setId} = useContext(upId)
+
+
   const navigate = useNavigate()
   const [showCalendar, setShowCalendar] = useState(false);
   const [date, setDate] = useState("");
@@ -262,7 +265,7 @@ export default function AddItemModal() {
               id="totalprice"
               onChange={handelInputChange} value={formData.totalprice}
               className="w-full p-2 mt-1 text-3xl  bg-transparent border border-white rounded-md"
-              defaultValue={0}
+              // defaultValue={0}
             />
           </div>
           </div>

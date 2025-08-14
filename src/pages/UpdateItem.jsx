@@ -166,12 +166,14 @@ export default function UpdateItem() {
                       <div className="relative mt-1">
                         <input
                         type="text"
-                          value={date}
+                          // value={date}
                           name="Date" 
                           id="Date"
                           onChange={handelInputChange}
-                          //  value={formData.Date}
+                           value={formData.Date}
+                          // onClick={() => setShowCalendar(!showCalendar)}
                           onClick={() => setShowCalendar(!showCalendar)}
+
                           readOnly
                           placeholder="Date"
                           className="w-full p-2 pr-10 bg-transparent border border-white rounded-md cursor-pointer"
@@ -193,7 +195,9 @@ export default function UpdateItem() {
                                   onClick={() => {
                                     const selectedDate = `September ${i + 1}`;
                                     setDate(selectedDate);
+                                    // setformData(prev => ({ ...prev, Date: selectedDate }));
                                     setformData(prev => ({ ...prev, Date: selectedDate }));
+
                                     setShowCalendar(false);
                                     // setDate(`September ${i + 1}`);
                                     // setShowCalendar(false);
@@ -214,12 +218,12 @@ export default function UpdateItem() {
                       <label htmlFor="NeedDate" className="text-sm">Date Need</label>
                       <div className="relative mt-1">
                         <input
-                          value={dateneed}
+                          // value={dateneed}
                           name="NeedDate" 
                           id="NeedDate"
                           onChange={handelInputChange} 
-                          // value={formData.NeedDate}
-                          onClick={() => setShowCalendarneed(!showCalendar)}
+                          value={formData.NeedDate}
+onClick={() => setShowCalendarneed(!showCalendarneed)}
                           readOnly
                           placeholder="Date Need"
                           className="w-full p-2 pr-10 bg-transparent border border-white rounded-md cursor-pointer"

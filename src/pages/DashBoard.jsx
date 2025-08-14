@@ -39,8 +39,10 @@ function Dashboard() {
     const fetchUsers = async () =>{
       const res = await getDocs(collection(db, "users"));
       const userList = res.docs.map(doc => ({ id: doc.id , ...doc.data()}))
+      // setId(doc.id)
       console.log(userList);
       setUsers(userList)
+      setlooding(false)
     };
 
     useEffect(() => {

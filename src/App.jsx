@@ -12,7 +12,7 @@ function App() {
   return (<>
       <Router>
           <Routes>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={ <Dashboard />}  />
             <Route path="/creation-success" element={<CreationSuccess />} />
             <Route path="/add" element={<AddItemModal />} />
             <Route path="/user/:id/edit" element={<UpdateItem />} />

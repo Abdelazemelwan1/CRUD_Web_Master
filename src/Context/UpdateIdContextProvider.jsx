@@ -1,14 +1,15 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
+import React from 'react';
 
 
-export let UpdateIdContext =  createContext();
+export let upId =  createContext();
 
 
 export default function UpdateIdContextProvider({children}) {
+const [id, setId] = useState()
 
 
-
-  return <UpdateIdContext.Provider  value={{}}>
+  return <upId.Provider  value={{setId , id}}>
     {children}
-  </UpdateIdContext.Provider>
+  </upId.Provider>
 }
