@@ -9,9 +9,16 @@ import CustomHeader from '../components/Navbar';
 import { useEffect, useState } from 'react';
 import { auth } from '../firebase/firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
+import Lottie from 'lottie-react';
+import loooding from "./../loading.json"
+import { FiEdit } from "react-icons/fi";
+import { AiTwotoneDelete } from "react-icons/ai";
+
+
 
 
 function Dashboard() {
+    const [looding, setlooding] = useState(true);
     const [searchText, setSearchText] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [users, setUsers] = useState([]);
@@ -114,30 +121,19 @@ const rows = users?.length ?  users.map((user) => (
     }
       
   },
-    {field: 'action',headerName: 'Action', width: 110 , 
+    {field: 'update',headerName: 'Update', width: 80 , 
+       renderCell: (params) => {
+      return(
+        <div className='flex justify-center items-center h-[100%] cursor-pointer text-[#00A558] text-lg' onClick={()=> handleUpdateUser(params.row)}><FiEdit /></div>
+
+    )
+    }
+    },
+    {field: 'delete',headerName: 'Delete', width: 80 , 
 
        renderCell: (params) => {
       return(
-        // <h1 className='cursor-pointer' onClick={()=> handleUpdateUser(params)}  >updit</h1>
-
-      <div className="flex justify-end px-4 pt-4 z-40">
-        <button id="dropdownButton" data-dropdown-toggle="dropdown" className="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5" type="button">
-            <span className="sr-only">Open dropdown</span>
-            <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
-                <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
-            </svg>
-        </button>
-        <div id="dropdown" className="z-30 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
-            <ul className="py-2" aria-labelledby="dropdownButton">
-            <li>
-                <a onClick={()=> handleUpdateUser(params.row)} href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Edit</a>
-            </li>
-            <li>
-                <a onClick={()=> handleDelet(params.row)} href="#" className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
-            </li>
-            </ul>
-      </div>
-    </div>
+        <div className='flex justify-center items-center h-[100%] cursor-pointer text-red-800 text-2xl' onClick={()=> handleDelet(params.row)}><AiTwotoneDelete className='shadow-2xl' /></div>
     )
     }
     },
@@ -154,6 +150,9 @@ const rows = users?.length ?  users.map((user) => (
     };
   const totalPages = Math.ceil(filteredRows.length / pageSize);
 
+  if(looding){
+    return <div><Lottie className='h-screen' animationData={loooding} /></div>
+  }
 
   return (
     <>
@@ -165,7 +164,7 @@ const rows = users?.length ?  users.map((user) => (
         handleLogout={handleLogout}
         user={user}
     />
-    <div className="p-20 min-h-screen">
+    <div className="p-5 lg:p-20 min-h-screen overflow-auto">
       {/* <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-semibold text-white">Requests</h2>
         <button
@@ -176,9 +175,9 @@ const rows = users?.length ?  users.map((user) => (
           Add Item
         </button>
       </div> */}
-      <Paper className='m-auto mt-25' sx={{ height: 'calc(100vh - 200px)',
+      <Paper className='m-auto mt-42 lg:mt-25' sx={{ height: 'calc(100vh - 200px)',
             width: '100%',
-            overflow: 'hidden', }}>
+            overflow: 'scroll', }}>
         <DataGrid
           rows={filteredRows}
           columns={columns}
