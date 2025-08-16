@@ -175,7 +175,7 @@ const rows = users?.length ?  users.map((user) => (
           Add Item
         </button>
       </div> */}
-      <Paper className='m-auto mt-42 lg:mt-25' sx={{ height: 'calc(100vh - 200px)',
+      <Paper className='m-auto mt-42 lg:mt-25' sx={{ height: 'calc(100vh - 270px)',
             width: '100%',
             overflow: 'scroll', }}>
         <DataGrid
